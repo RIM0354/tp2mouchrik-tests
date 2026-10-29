@@ -86,4 +86,51 @@ public class MeteoTool {
             throw new RuntimeException(e);
         }
     }
+
+    @Tool("""
+    Retourne la latitude et la longitude d'une ville dont on donne le nom, dans un tableau de 2 nombres :
+    la latitude à l'indice 0 et la longitude à l'indice 1.
+    S'il existe plusieurs villes avec ce nom, ajouter le nom du pays après une virgule, par exemple "Rabat,Morocco".
+    """)
+    public double[] getCoordonnees(
+            @P(value = "Nom de la ville, en anglais, éventuellement suivi d'une virgule et du nom du pays en anglais",
+               name = "ville") String ville) {
+        try {
+            String baseUrl = "https://geocoding-api.open-meteo.com/v1/search?name=";
+            String apiUri = baseUrl + ville;
+            HttpURLConnection connection = (HttpURLConnection) new URI(apiUri).toURL().openConnection();
+            connection.setRequestMethod("GET");
+            Scanner scanner = new Scanner(connection.getInputStream());
+            String response = scanner.useDelimiter("\\A").next();
+            scanner.close();
+//            System.out.println("Réponse de l'API de géocodage : " + response);
+            // Parser la réponse JSON qui a le format suivant :
+            // (On prend la première correspondance trouvée pour la ville et on retourne ses coordonnées)
+            // {
+            //  "results": [
+            //    {
+            //      "id": 3169070,
+            //      "name": "Rome",
+            //      "latitude": 41.89193,
+            //      "longitude": 12.51133,
+            Gson gson = new Gson();
+            JsonObject jsonResponse = gson.fromJson(response, JsonObject.class);
+            // Récupérer le tableau "results"
+            if (jsonResponse.has("results")) {
+                JsonArray results = jsonResponse.getAsJsonArray("results");
+                if (!results.isEmpty()) {
+                    // Récupérer le 1er élément du tableau results
+                    JsonObject premierResultat = results.get(0).getAsJsonObject();
+                    double latitude = premierResultat.get("latitude").getAsDouble();
+                    double longitude = premierResultat.get("longitude").getAsDouble();
+                    return new double[]{latitude, longitude};
+                }
+            }
+            throw new RuntimeException("Aucune coordonnée trouvée pour la ville : " + ville);
+        } catch (IOException e) {
+            throw new RuntimeException("Erreur lors de la récupération des coordonnées pour la ville : " + ville, e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
