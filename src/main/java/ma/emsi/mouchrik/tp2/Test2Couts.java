@@ -33,7 +33,8 @@ public class Test2Couts {
                 .temperature(0.7)
                 .build();
 
-        String question = "Quelle est la capitale du Maroc ?";
+        // La question peut être passée en argument (utilisé au test 7 pour la question sur le parapluie)
+        String question = args.length > 0 ? args[0] : "Quelle est la capitale du Maroc ?";
         // chat(ChatMessage...) retourne une ChatResponse qui contient aussi les nombres de tokens
         ChatResponse chatResponse = modele.chat(UserMessage.from(question));
         System.out.println("Question : " + question);
