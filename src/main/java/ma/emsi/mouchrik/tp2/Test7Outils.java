@@ -23,6 +23,8 @@ public class Test7Outils {
                 .apiKey(cle)
                 .modelName("gemini-3.5-flash-lite")
                 .temperature(0.3)
+                // Logging des requêtes envoyées au LLM et de ses réponses (voir logback.xml)
+                .logRequestsAndResponses(true)
                 .build();
 
         AssistantMeteo assistant =
