@@ -26,6 +26,12 @@
             <artifactId>langchain4j-google-genai</artifactId>
             <version>${langchain4j.version}-beta33</version>
         </dependency>
+        <!-- Modèle d'embeddings intégré (test 4) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-embeddings-bge-small-en-v15</artifactId>
+            <version>${langchain4j.version}-beta33</version>
+        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
