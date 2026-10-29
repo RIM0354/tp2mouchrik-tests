@@ -3,7 +3,10 @@ package ma.emsi.mouchrik.tp2;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.embedding.onnx.bgesmallenv15.BgeSmallEnV15EmbeddingModel;
+// Depuis le test 5, la dépendance langchain4j-embeddings-bge-small-en-v15 est en commentaire dans pom.xml :
+// on utilise la version quantifiée du même modèle, fournie par easy-rag.
+// import dev.langchain4j.model.embedding.onnx.bgesmallenv15.BgeSmallEnV15EmbeddingModel;
+import dev.langchain4j.model.embedding.onnx.bgesmallenv15q.BgeSmallEnV15QuantizedEmbeddingModel;
 import dev.langchain4j.model.google.genai.GoogleGenAiEmbeddingModel;
 import dev.langchain4j.store.embedding.CosineSimilarity;
 
@@ -33,7 +36,8 @@ public class Test4Embeddings {
 
     public static void main(String[] args) {
         // Modèle d'embeddings intégré à LangChain4j : ne consomme pas de tokens.
-        EmbeddingModel modeleIntegre = new BgeSmallEnV15EmbeddingModel();
+        // EmbeddingModel modeleIntegre = new BgeSmallEnV15EmbeddingModel();
+        EmbeddingModel modeleIntegre = new BgeSmallEnV15QuantizedEmbeddingModel();
 
         String cle = System.getenv("GEMINI_KEY");
         if (cle == null) {

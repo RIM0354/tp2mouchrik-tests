@@ -26,10 +26,19 @@
             <artifactId>langchain4j-google-genai</artifactId>
             <version>${langchain4j.version}-beta33</version>
         </dependency>
-        <!-- Modèle d'embeddings intégré (test 4) -->
+        <!-- Modèle d'embeddings intégré (test 4), mis en commentaire au test 5 pour éviter
+             un conflit avec le modèle d'embeddings utilisé par easy-rag (bge-small-en-v15-q) -->
+        <!--
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-embeddings-bge-small-en-v15</artifactId>
+            <version>${langchain4j.version}-beta33</version>
+        </dependency>
+        -->
+        <!-- RAG facile (test 5) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-easy-rag</artifactId>
             <version>${langchain4j.version}-beta33</version>
         </dependency>
         <dependency>
